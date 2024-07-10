@@ -13,13 +13,6 @@ Technologies Used
 
 Installation
 
-Usage
-
-File Structure
-
-Model Training
-
-Contributing
 
 
 Introduction
