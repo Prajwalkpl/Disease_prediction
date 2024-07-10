@@ -40,7 +40,7 @@ l2=[]
 for x in range(0,len(l1)):
     l2.append(0)
 
-# TESTING DATA df -------------------------------------------------------------------------------------
+
 df=pd.read_csv("Training.csv")
 
 df.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic cholestasis':3,'Drug Reaction':4,
@@ -53,7 +53,7 @@ df.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic chol
 '(vertigo) Paroymsal  Positional Vertigo':36,'Acne':37,'Urinary tract infection':38,'Psoriasis':39,
 'Impetigo':40}},inplace=True)
 
-# print(df.head())
+
 
 X= df[l1]
 
@@ -61,7 +61,7 @@ y = df[["prognosis"]]
 np.ravel(y)
 # print(y)
 
-# TRAINING DATA tr --------------------------------------------------------------------------------
+
 tr=pd.read_csv("Testing.csv")
 tr.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic cholestasis':3,'Drug Reaction':4,
 'Peptic ulcer diseae':5,'AIDS':6,'Diabetes ':7,'Gastroenteritis':8,'Bronchial Asthma':9,'Hypertension ':10,
@@ -76,7 +76,7 @@ tr.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic chol
 X_test= tr[l1]
 y_test = tr[["prognosis"]]
 np.ravel(y_test)
-# ------------------------------------------------------------------------------------------------------
+
 @app.route('/')
 def index():
     return render_template('index.html', symptoms=l1)
@@ -93,7 +93,7 @@ def predict():
     y_pred=clf3.predict(X_test)
     print(accuracy_score(y_test, y_pred))
     print(accuracy_score(y_test, y_pred,normalize=False))
-    # -----------------------------------------------------
+
     psymptoms=[]
     psymptoms.append(request.form.get('Symptom1'))
     psymptoms.append(request.form.get('Symptom2'))
