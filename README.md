@@ -3,7 +3,7 @@
 This project is a web-based application that takes user-input symptoms and predicts the possible disease using a machine learning model (DecisionTreeClassifier). The application is built using Flask for the backend and HTML for the frontend.
 
 
-Table of Contents
+# Table of Contents
 
 Introduction
 
@@ -15,11 +15,11 @@ Installation
 
 
 
-Introduction
+# Introduction
 
 This web application allows users to input their symptoms and get a prediction of the possible disease. The prediction is made using a DecisionTreeClassifier machine learning model.
 
-Features
+# Features
 
 User-friendly interface to input symptoms
 
@@ -29,7 +29,7 @@ Uses a trained DecisionTreeClassifier model
 
 Built with Flask and HTML
 
-Technologies Used
+# Technologies Used
 
 Python
 
@@ -41,7 +41,7 @@ HTML/CSS
 
 Bootstrap (optional for styling)
 
-Installation
+# Installation
 
 Prerequisites
 
