@@ -40,7 +40,6 @@ l2=[]
 for x in range(0,len(l1)):
     l2.append(0)
 
-
 df=pd.read_csv("Training.csv")
 
 df.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic cholestasis':3,'Drug Reaction':4,
@@ -57,11 +56,19 @@ df.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic chol
 
 X= df[l1]
 
-y = df[["prognosis"]]
+y = df["prognosis"] = df["prognosis"].replace(
+    {'Fungal infection': 0, 'Allergy': 1, 'GERD': 2, 'Chronic cholestasis': 3, 'Drug Reaction': 4,
+     'Peptic ulcer diseae': 5, 'AIDS': 6, 'Diabetes ': 7, 'Gastroenteritis': 8, 'Bronchial Asthma': 9,
+     'Hypertension ': 10, 'Migraine': 11, 'Cervical spondylosis': 12, 'Paralysis (brain hemorrhage)': 13,
+     'Jaundice': 14, 'Malaria': 15, 'Chicken pox': 16, 'Dengue': 17, 'Typhoid': 18, 'hepatitis A': 19,
+     'Hepatitis B': 20, 'Hepatitis C': 21, 'Hepatitis D': 22, 'Hepatitis E': 23, 'Alcoholic hepatitis': 24,
+     'Tuberculosis': 25, 'Common Cold': 26, 'Pneumonia': 27, 'Dimorphic hemmorhoids(piles)': 28,
+     'Heart attack': 29, 'Varicose veins': 30, 'Hypothyroidism': 31, 'Hyperthyroidism': 32, 'Hypoglycemia': 33,
+     'Osteoarthristis': 34, 'Arthritis': 35, '(vertigo) Paroymsal  Positional Vertigo': 36, 'Acne': 37,
+     'Urinary tract infection': 38, 'Psoriasis': 39, 'Impetigo': 40}
+).astype(int)
+df.infer_objects(copy=False)
 np.ravel(y)
-# print(y)
-
-
 tr=pd.read_csv("Testing.csv")
 tr.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic cholestasis':3,'Drug Reaction':4,
 'Peptic ulcer diseae':5,'AIDS':6,'Diabetes ':7,'Gastroenteritis':8,'Bronchial Asthma':9,'Hypertension ':10,
@@ -74,35 +81,44 @@ tr.replace({'prognosis':{'Fungal infection':0,'Allergy':1,'GERD':2,'Chronic chol
 'Impetigo':40}},inplace=True)
 
 X_test= tr[l1]
-y_test = tr[["prognosis"]]
+y_test = tr["prognosis"].replace(
+    {'Fungal infection': 0, 'Allergy': 1, 'GERD': 2, 'Chronic cholestasis': 3, 'Drug Reaction': 4,
+     'Peptic ulcer diseae': 5, 'AIDS': 6, 'Diabetes ': 7, 'Gastroenteritis': 8, 'Bronchial Asthma': 9,
+     'Hypertension ': 10, 'Migraine': 11, 'Cervical spondylosis': 12, 'Paralysis (brain hemorrhage)': 13,
+     'Jaundice': 14, 'Malaria': 15, 'Chicken pox': 16, 'Dengue': 17, 'Typhoid': 18, 'hepatitis A': 19,
+     'Hepatitis B': 20, 'Hepatitis C': 21, 'Hepatitis D': 22, 'Hepatitis E': 23, 'Alcoholic hepatitis': 24,
+     'Tuberculosis': 25, 'Common Cold': 26, 'Pneumonia': 27, 'Dimorphic hemmorhoids(piles)': 28,
+     'Heart attack': 29, 'Varicose veins': 30, 'Hypothyroidism': 31, 'Hyperthyroidism': 32, 'Hypoglycemia': 33,
+     'Osteoarthristis': 34, 'Arthritis': 35, '(vertigo) Paroymsal  Positional Vertigo': 36, 'Acne': 37,
+     'Urinary tract infection': 38, 'Psoriasis': 39, 'Impetigo': 40}
+).astype(int)
+tr.infer_objects(copy=False)
 np.ravel(y_test)
-
+# ------------------------------------------------------------------------------------------------------
 @app.route('/')
 def index():
     return render_template('index.html', symptoms=l1)
 @app.route('/predict', methods=['POST'])
 def predict():
-
+    print(X,y)
     from sklearn import tree
 
-    clf3 = tree.DecisionTreeClassifier()   # empty model of the decision tree
+    clf3 = tree.DecisionTreeClassifier()   
     clf3 = clf3.fit(X,y)
 
-    # calculating accuracy-------------------------------------------------------------------
+ 
     from sklearn.metrics import accuracy_score
     y_pred=clf3.predict(X_test)
     print(accuracy_score(y_test, y_pred))
     print(accuracy_score(y_test, y_pred,normalize=False))
-
+    # -----------------------------------------------------
     psymptoms=[]
     psymptoms.append(request.form.get('Symptom1'))
     psymptoms.append(request.form.get('Symptom2'))
     psymptoms.append(request.form.get('Symptom3'))
     psymptoms.append(request.form.get('Symptom4'))
     psymptoms.append(request.form.get('Symptom5'))
-    print(psymptoms)
     for k in range(0,len(l1)):
-        # print (k,)
         for z in psymptoms:
             if(z==l1[k]):
                 l2[k]=1
